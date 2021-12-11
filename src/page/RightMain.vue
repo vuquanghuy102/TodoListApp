@@ -26,7 +26,6 @@
 </template>
 
 <script>
-// import { sortArrayByDueDate } from '../utils/baseFunctions'
 import Task from '../components/Task.vue'
 
 export default {
