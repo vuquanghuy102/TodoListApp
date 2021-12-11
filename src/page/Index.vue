@@ -4,7 +4,6 @@
         <div class="wrapper-form">
           <LeftMain @create-task="createTask($event)"/>
           <RightMain
-            @update-task="updateTask($event)"
             @search-task="searchTask($event)"
             @remove-task="removeTask($event)"
             @sync-data="getDataTask()"
@@ -46,12 +45,6 @@ export default {
       this.dataInit.push(task);
       localStorage.setItem('dataInit', JSON.stringify(this.dataInit));
       this.getDataTask()
-    },
-    updateTask(value) {
-      console.log(value);
-      // this.dataInit.splice(index, 1, dataTask)
-      // localStorage.setItem('dataInit', JSON.stringify(this.dataInit));
-      // this.getDataTask()
     },
     searchTask(keySearch) {
       if (keySearch !== ''){

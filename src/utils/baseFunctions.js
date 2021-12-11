@@ -12,3 +12,14 @@ export const removeItem = (list, key) => {
   });
   return items;
 }
+
+export const getToday = () => {
+  var today = new Date();
+      var now_date =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
+      return now_date;
+}

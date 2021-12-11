@@ -21,7 +21,7 @@
       <div class="group_wrapper">
         <div class="input-group">
           <label for="">Due Date</label>
-          <input id="due_date" type="date" :min='this.getToday()' v-model="editTask.due_date">
+          <input id="due_date" type="date" :min='today' v-model="editTask.due_date">
         </div>
         <div class="input-group">
           <label for="">Piority</label>
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { getToday } from '../utils/baseFunctions'
+
 export default {
   name: "Task",
 
@@ -72,7 +74,8 @@ export default {
       checkedTask: false,
       editTask: {...this.task},
       errors: [],
-      disableDetail: false
+      disableDetail: false,
+      today: getToday()
     };
   },
 
@@ -89,31 +92,22 @@ export default {
       this.checkedTask = !this.checkedTask
       this.$emit("check-list-task");
     },
-    removeTask() {
-      this.$emit("remove-task");
+    async removeTask() {
+      await this.$emit("remove-task");
+      this.editTask = {...this.task}
     },
     newTask() {
       this.editTask = {
         title: null,
         description: null,
-        due_date: this.getToday(),
+        due_date: this.today,
         piority: 1,
       };
     },
     toggleDetail() {
       this.disableDetail = !this.disableDetail;
     },
-    getToday() {
-      var today = new Date();
-      var now_date =
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1) +
-        "-" +
-        today.getDate();
-      return now_date;
-    },
-    submit() {
+    async submit() {
       this.errors = [];
       for (let variable in this.editTask) {
         if (this.editTask[variable] == null || this.editTask[variable] == "") {
@@ -122,10 +116,11 @@ export default {
       }
       if (!this.errors.length) {
         if (this.type == "create") {
-          this.$emit("congratulation", this.editTask);
+          await this.$emit("congratulation", this.editTask);
           this.newTask();
         } else {
-          this.$emit("update-task", this.editTask);
+          await this.$emit("update-task", this.editTask);
+          this.editTask = {...this.task}
         }
       }
     },
